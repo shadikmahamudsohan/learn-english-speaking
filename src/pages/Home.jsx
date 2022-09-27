@@ -62,11 +62,11 @@ const Home = () => {
     console.log(correctPercentage);
     return (
         <Background>
-            <h1 className='text-red-600 text-xl w-96'>
+            <h1 className='text-red-600 text-xl w-full md:w-96'>
                 {data.quote}
             </h1>
             <div className='mt-5'>
-                <p className='text-blue-600 text-xl w-72 mb9w-96'>{spokenText}</p>
+                <p className='text-blue-600 text-xl w-full md:w-96'>{spokenText}</p>
                 <button className='py-5 md:py-2 w-full md:my-0 my-1 md:w-14 bg-blue-500 rounded mr-5 text-white'
                     onClick={() => {
                         SpeechRecognition.startListening();
