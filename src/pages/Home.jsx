@@ -10,7 +10,7 @@ const Home = () => {
     const [spokenText, setSpokenText] = useState("");
     const [start, setStart] = useState(0);
     useEffect(() => {
-        fetch('http://api.kanye.rest/')
+        fetch('https://api.kanye.rest/')
             .then(res => res.json())
             .then(data => setData(data));
     }, [start]);
@@ -67,14 +67,14 @@ const Home = () => {
             </h1>
             <div className='mt-5'>
                 <p className='text-blue-600 text-xl w-72 mb9w-96'>{spokenText}</p>
-                <button className='py-5 md:py-2 w-full md:my-0 my-1 md:w-7 bg-blue-500 rounded mr-5 text-white'
+                <button className='py-5 md:py-2 w-full md:my-0 my-1 md:w-14 bg-blue-500 rounded mr-5 text-white'
                     onClick={() => {
                         SpeechRecognition.startListening();
                         setStart(start + 1);
                     }
                     }>Start</button>
-                <button className='py-5 md:py-2 w-full md:my-0 my-1  md:w-7 bg-blue-500 rounded mr-5 text-white' onClick={SpeechRecognition.stopListening}>Stop</button>
-                <button className='py-5 md:py-2 w-full md:my-0 my-1  md:w-7 bg-blue-500 rounded mr-5 text-white' onClick={SpeechRecognition.startListening}>Retry</button>
+                <button className='py-5 md:py-2 w-full md:my-0 my-1  md:w-14 bg-blue-500 rounded mr-5 text-white' onClick={SpeechRecognition.stopListening}>Stop</button>
+                <button className='py-5 md:py-2 w-full md:my-0 my-1  md:w-14 bg-blue-500 rounded mr-5 text-white' onClick={SpeechRecognition.startListening}>Retry</button>
 
                 <h1 className='text-5xl text-green-600 text-center my-5'>{(correctPercentage >= 0) && Math.floor(correctPercentage) + " %"}</h1>
 
