@@ -19,12 +19,9 @@ const Home = () => {
 
     const {
         audioResult,
-        timer,
         startRecording,
         stopRecording,
-        pauseRecording,
         resumeRecording,
-        status,
         errorMessage
     } = useAudioRecorder(); // voice record
 
@@ -32,7 +29,8 @@ const Home = () => {
     const {
         transcript,
         listening,
-        browserSupportsSpeechRecognition
+        browserSupportsSpeechRecognition,
+        browserSupportsContinuousListening
     } = useSpeechRecognition(); // turning speech into text
 
     const { speak } = useSpeechSynthesis(); // listen text option
@@ -47,13 +45,18 @@ const Home = () => {
 
     useEffect(() => {
         if (listening === false) {
-            console.log("stoped");
             stopRecording();
         }
     }, [listening]);
 
 
-
+    useEffect(() => {
+        if (browserSupportsContinuousListening) {
+            SpeechRecognition.startListening({ continuous: true });
+        } else {
+            // Fallback behaviour
+        }
+    }, [browserSupportsContinuousListening]);
 
     if (!browserSupportsSpeechRecognition) {
         return <span>Browser doesn't support speech recognition.</span>;
