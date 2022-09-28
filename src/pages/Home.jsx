@@ -20,6 +20,7 @@ const Home = () => {
     const {
         audioResult,
         startRecording,
+        status,
         stopRecording,
         resumeRecording,
         errorMessage
@@ -46,6 +47,8 @@ const Home = () => {
     useEffect(() => {
         if (listening === false) {
             stopRecording();
+        } else {
+            startRecording();
         }
     }, [listening, stopRecording]);
 
@@ -93,7 +96,6 @@ const Home = () => {
     console.log(listening);
     return (
         <Background>
-            <p>listening test: {listening ? "true" : "false"} {browserSupportsContinuousListening ? "listening" : "not listening"}</p>
             {
                 data?.quote && <>
                     <button
@@ -125,7 +127,9 @@ const Home = () => {
                     }}
                 >Retry</button>
                 {(listening === false) && <audio className='w-full mt-5 border border-blue-500 rounded-3xl' controls src={audioResult} />}
-
+                <p>
+                    Status : <b>{status}</b>
+                </p>
                 <h1 className='text-5xl text-green-600 text-center my-5'>{(correctPercentage >= 0) && Math.floor(correctPercentage) + " %"}</h1>
 
                 {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
