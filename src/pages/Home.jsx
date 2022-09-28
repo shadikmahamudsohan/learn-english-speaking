@@ -31,7 +31,8 @@ const Home = () => {
         transcript,
         listening,
         browserSupportsSpeechRecognition,
-        browserSupportsContinuousListening
+        browserSupportsContinuousListening,
+        isMicrophoneAvailable
     } = useSpeechRecognition(); // turning speech into text
 
     const { speak } = useSpeechSynthesis(); // listen text option
@@ -45,13 +46,15 @@ const Home = () => {
 
 
     useEffect(() => {
-        if (listening === false) {
-            stopRecording();
-        } else {
-            startRecording();
-        }
-    }, [listening, stopRecording]);
+        if (browserSupportsContinuousListening) {
+            if (listening === false) {
+                stopRecording();
 
+            } else {
+                startRecording();
+            }
+        }
+    }, [listening]);
 
     useEffect(() => {
         if (browserSupportsContinuousListening) {
@@ -64,7 +67,9 @@ const Home = () => {
     if (!browserSupportsSpeechRecognition) {
         return <span>Browser doesn't support speech recognition.</span>;
     }
-
+    if (!isMicrophoneAvailable) {
+        return <span>Please turn available your microphone.</span>;
+    }
     function getWords(text) {
         let x = text?.replace(/[^A-Za-z0-9]+/g, " ");
         let newArr = x?.trim()?.split(" ");
@@ -83,6 +88,7 @@ const Home = () => {
     }
 
     const allTrue = [];
+
     for (let i = 0; i < dataArray?.length; i++) {
         if (dataArray[i] === true) {
             allTrue.push(true);
@@ -93,7 +99,6 @@ const Home = () => {
     }
     const correctPercentage = getPercentage(dataArray.length, allTrue.length);
 
-    console.log(listening);
     return (
         <Background>
             {
@@ -123,13 +128,12 @@ const Home = () => {
                 <button className='py-5 md:py-2 w-full md:my-0 my-1  md:w-14 bg-blue-500 rounded mr-5 text-white'
                     onClick={() => {
                         SpeechRecognition.startListening();
-                        resumeRecording();
+                        if (browserSupportsContinuousListening) {
+                            resumeRecording();
+                        }
                     }}
                 >Retry</button>
-                {(listening === false) && <audio className='w-full mt-5 border border-blue-500 rounded-3xl' controls src={audioResult} />}
-                <p>
-                    Status : <b>{status}</b>
-                </p>
+                {(listening === false && browserSupportsContinuousListening) && <audio className='w-full mt-5 border border-blue-500 rounded-3xl' controls src={audioResult} />}
                 <h1 className='text-5xl text-green-600 text-center my-5'>{(correctPercentage >= 0) && Math.floor(correctPercentage) + " %"}</h1>
 
                 {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
