@@ -90,9 +90,10 @@ const Home = () => {
     }
     const correctPercentage = getPercentage(dataArray.length, allTrue.length);
 
-    console.log({ dataArray, text: getWords(data?.quote), myText: getWords(spokenText) });
+    console.log(listening);
     return (
         <Background>
+            <p>listening test: {listening ? "true" : "false"}</p>
             {
                 data?.quote && <>
                     <button
