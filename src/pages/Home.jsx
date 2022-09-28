@@ -56,13 +56,7 @@ const Home = () => {
         }
     }, [listening]);
 
-    useEffect(() => {
-        if (browserSupportsContinuousListening) {
-            SpeechRecognition.startListening({ continuous: true });
-        } else {
-            // Fallback behaviour
-        }
-    }, []);
+
 
     if (!browserSupportsSpeechRecognition) {
         return <span>Browser doesn't support speech recognition.</span>;
