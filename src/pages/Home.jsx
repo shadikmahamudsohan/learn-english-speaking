@@ -50,13 +50,14 @@ const Home = () => {
     }, [listening]);
 
 
-    // useEffect(() => {
-    //     if (browserSupportsContinuousListening) {
-    //         SpeechRecognition.startListening({ continuous: true });
-    //     } else {
-    //         // Fallback behaviour
-    //     }
-    // }, [browserSupportsContinuousListening]);
+    useEffect(() => {
+        if (browserSupportsContinuousListening) {
+            SpeechRecognition.startListening({ continuous: true });
+        } else {
+            // Fallback behaviour
+            console.log("fallback");
+        }
+    }, [browserSupportsContinuousListening]);
 
     if (!browserSupportsSpeechRecognition) {
         return <span>Browser doesn't support speech recognition.</span>;
@@ -93,7 +94,7 @@ const Home = () => {
     console.log(listening);
     return (
         <Background>
-            <p>listening test: {listening ? "true" : "false"}</p>
+            <p>listening test: {listening ? "true" : "false"} {browserSupportsContinuousListening && "listening"}</p>
             {
                 data?.quote && <>
                     <button
@@ -115,7 +116,7 @@ const Home = () => {
                     onClick={() => {
                         SpeechRecognition.startListening();
                         setStart(start + 1);
-                        // startRecording();
+                        startRecording();
                     }
                     }>Start</button>
                 <button className='py-5 md:py-2 w-full md:my-0 my-1  md:w-14 bg-blue-500 rounded mr-5 text-white' onClick={SpeechRecognition.stopListening}>Stop</button>
