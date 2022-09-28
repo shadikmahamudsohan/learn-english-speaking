@@ -94,7 +94,7 @@ const Home = () => {
     console.log(listening);
     return (
         <Background>
-            <p>listening test: {listening ? "true" : "false"} {browserSupportsContinuousListening && "listening"}</p>
+            <p>listening test: {listening ? "true" : "false"} {browserSupportsContinuousListening ? "listening" : "not listening"}</p>
             {
                 data?.quote && <>
                     <button
