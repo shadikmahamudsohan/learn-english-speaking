@@ -47,11 +47,15 @@ const Home = () => {
         if (listening === false) {
             stopRecording();
         }
-    }, [listening]);
+    }, [listening, stopRecording]);
 
 
     useEffect(() => {
-        SpeechRecognition.startListening({ continuous: true });
+        if (browserSupportsContinuousListening) {
+            SpeechRecognition.startListening({ continuous: true });
+        } else {
+            // Fallback behaviour
+        }
     }, []);
 
     if (!browserSupportsSpeechRecognition) {
@@ -111,7 +115,6 @@ const Home = () => {
                     onClick={() => {
                         SpeechRecognition.startListening();
                         setStart(start + 1);
-                        startRecording();
                     }
                     }>Start</button>
                 <button className='py-5 md:py-2 w-full md:my-0 my-1  md:w-14 bg-blue-500 rounded mr-5 text-white' onClick={SpeechRecognition.stopListening}>Stop</button>
